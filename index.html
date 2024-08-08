@@ -25,7 +25,7 @@
             var email = prompt("Enter your email to unsubscribe:");
             if (email) {
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', 'https://<your-backend-url>/unsubscribe', true);
+                xhr.open('POST', 'https://git.heroku.com/pure-ocean-83672.git', true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.onload = function () {
                     if (xhr.status === 200) {
