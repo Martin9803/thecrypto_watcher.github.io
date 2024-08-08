@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Watcher</title>
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById('message').innerText = "Thank you for Subscribing, a confirmation message has been sent";
+                    form.reset();
+                } else {
+                    document.getElementById('message').innerText = "There was an error with your subscription, please try again.";
+                }
+            };
+            xhr.send(formData);
+        }
+
+        function handleQuit() {
+            // This should call a backend API to remove the subscription
+            var email = prompt("Enter your email to unsubscribe:");
+            if (email) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'https://<your-backend-url>/unsubscribe', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        document.getElementById('message').innerText = "You have been unsubscribed successfully.";
+                    } else {
+                        document.getElementById('message').innerText = "There was an error with your unsubscription, please try again.";
+                    }
+                };
+                xhr.send(JSON.stringify({ email: email }));
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Subscribe to Crypto Price Updates</h1>
+    <form action="https://<your-backend-url>/subscribe" method="post" onsubmit="handleFormSubmit(event)">
+        <label for="email">Phone Number (Email):</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="cryptos">Cryptocurrencies:</label><br>
+        <input type="checkbox" id="bitcoin" name="cryptos" value="bitcoin"> Bitcoin<br>
+        <input type="checkbox" id="ethereum" name="cryptos" value="ethereum"> Ethereum<br>
+        <input type="checkbox" id="dogecoin" name="cryptos" value="dogecoin"> Dogecoin<br><br>
+        <input type="submit" value="Subscribe">
+    </form>
+    <button onclick="handleQuit()">Quit</button>
+    <p id="message"></p>
+</body>
+</html>
